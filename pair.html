@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MKE-X MD CONNECT</title>
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/733/733553.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+    body {
+      background: linear-gradient(270deg, #00f, #0ff, #0f0, #ff0, #f00, #f0f);
+      background-size: 1200% 1200%;
+      animation: gradient 25s ease infinite;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      color: white;
+      padding-top: 180px;
+    }
+
+    @keyframes gradient {
+      0% {background-position: 0% 80%;}
+      60% {background-position: 150% 50%;}
+      150% {background-position: 0% 70%;}
+    }
+
+    .box {
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 15px;
+      padding: 30px;
+      width: 320px;
+      box-shadow: 0 0 20px #0ff;
+      text-align: center;
+    }
+
+    .input-container {
+      margin-top: 20px;
+    }
+
+    input {
+      padding: 10px;
+      width: 100%;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 15px;
+      background: #00ffff;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #00cccc;
+    }
+
+    .response {
+      margin-top: 20px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .copied {
+      color: lime;
+      font-weight: bold;
+    }
+
+    .spinner {
+      margin-top: 10px;
+      width: 30px;
+      height: 30px;
+      border: 4px solid #fff;
+      border-top: 4px solid #00ffff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      display: none;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #ccc;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {color: #ccc;}
+      50% {color: #00ffff;}
+    }
+  </style>
+</head>
+<body>
+  <!-- FOTO ANWO BOX LA -->
+  <div style="position: absolute; top: 30px; left: 50%; transform: translateX(-50%); z-index: 2;">
+    <img src="https://files.catbox.moe/z4do8f.jpeg" alt="Header" style="
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #00ffff;
+      box-shadow: 0 0 20px #00ffff;
+    ">
+  </div>
+
+  <!-- BOX INFO -->
+  <div class="box">
+    <i class="fa-brands fa-github" style="font-size: 2rem; margin-bottom: 15px;"></i>
+    <h3>☣️ MKE-X-MD-PAIR-WEB ☣️</h3>
+    <h6>MADE BY MKE BOY TECH</h6>
+    <h6>Enter your WhatsApp number with country code.</h6>
+
+    <div class="input-container">
+      <input id="number" type="tel" placeholder="+50938091234" />
+      <button id="generate-code">Generate Code</button>
+      <div class="spinner" id="spinner"></div>
+    </div>
+
+    <div class="response" id="pair" title="Click to copy code"></div>
+  </div>
+
+  <!-- MIZIK -->
+  <audio id="myAudio" loop>
+    <source src="https://files.catbox.moe/31os2j.mp4" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <button onclick="toggleMusic()" id="musicBtn" style="
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background-color: #000ffcc;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    z-index: 9999;
+    cursor: pointer;
+    font-size: 16px;
+  ">
+    🎵 Play Music
+  </button>
+
+  <!-- FOOTER -->
+  <footer style="background-color: #000; color: #00ffff; text-align: center; padding: 15px; font-family: 'Segoe UI', sans-serif; font-size: 14px; text-shadow: 0 0 5px #0ff;">
+    <i class="fa fa-user"></i> Powered by MKE-BOY • 2025
+  </footer>
+
+  <!-- SCRIPT -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+  <script>
+    const music = document.getElementById("myAudio");
+    const musicBtn = document.getElementById("musicBtn");
+    let isPlaying = false;
+
+    function toggleMusic() {
+      if (isPlaying) {
+        music.pause();
+        musicBtn.innerHTML = "🎵 Play Music";
+      } else {
+        music.play();
+        musicBtn.innerHTML = "⏸ Pause Music";
+      }
+      isPlaying = !isPlaying;
+    }
+
+    const pairElem = document.getElementById("pair");
+    const submitBtn = document.getElementById("generate-code");
+    const numInput = document.getElementById("number");
+    const spinner = document.getElementById("spinner");
+
+    function showSpinner(show) {
+      spinner.style.display = show ? "block" : "none";
+    }
+
+    async function copyCodeAuto(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        pairElem.classList.add("copied");
+        pairElem.innerText = "✔ COPIED!";
+        setTimeout(() => {
+          pairElem.classList.remove("copied");
+          pairElem.innerText = `CODE: ${text}`;
+        }, 1500);
+      } catch {
+        alert("Clipboard copy failed");
+      }
+    }
+
+    submitBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const phoneNumber = numInput.value.trim();
+      if (!phoneNumber) {
+        pairElem.style.color = "white";
+        pairElem.innerText = "Please enter your WhatsApp number";
+        return;
+      }
+
+      const cleanedNumber = phoneNumber.replace(/[^0-9]/g, "");
+      if (cleanedNumber.length < 10) {
+        pairElem.style.color = "red";
+        pairElem.innerText = "Invalid number";
+        return;
+      }
+
+      numInput.value = "+" + cleanedNumber;
+      showSpinner(true);
+      pairElem.innerText = "";
+
+      try {
+        const response = await axios.get(`/code?number=${cleanedNumber}`);
+        const code = response.data.code || "Unavailable";
+        showSpinner(false);
+        pairElem.style.color = "red";
+        pairElem.innerText = `CODE: ${code}`;
+        copyCodeAuto(code);
+      } catch {
+        showSpinner(false);
+        pairElem.style.color = "red";
+        pairElem.innerText = "Error fetching code";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MKE-X MD - Animated BG</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    @keyframes gradientShift {
+      0% { background-position: 0% 90%; }
+      80% { background-position: 160% 50%; }
+      160% { background-position: 0% 70%; }
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(-45deg, #1a1a2e, #ff416c, #ff4b2b, #1a1a2e, #16213e, #0f3460, #009dff, #00ffc3, #6a00ff, #ff00cc);
+      background-size: 400% 400%;
+      animation: gradientShift 18s ease infinite;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #e0f7ff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      margin-bottom: 40px;
+      text-shadow:
+        0 0 8px #00ffc3,
+        0 0 20px #00e1ff,
+        0 0 30px #009dff;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 280px;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 15px 0;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #ffffff;
+      background: linear-gradient(90deg, #00ffc3, #009dff);
+      box-shadow: 0 0 10px #00ffc3, 0 0 20px #009dff;
+      text-decoration: none;
+      transition: all 3s ease;
+      user-select: none;
+    }
+
+    .btn i {
+      color: #ffffff;
+      font-size: 1.3rem;
+      text-shadow: 0 0 6px #ffffff, 0 0 10px #00ffc3;
+    }
+
+    .btn:hover,
+    .btn:focus {
+      background: linear-gradient(90deg, #009dff, #00ffc3);
+      box-shadow: 0 0 20px #009dff, 0 0 30px #00ffc3;
+      color: #ffffff;
+      transform: scale(1.08);
+      outline: none;
+    }
+
+    p.info {
+      margin-top: 40px;
+      font-size: 1rem;
+      color: #b0eaff;
+      user-select: none;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 12px 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      color: #7de8ff;
+      font-weight: 600;
+      font-size: 0.9rem;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>MKE-X MD SESSION</h1>
+
+  <div class="buttons">
+    <a href="/qr" class="btn" target="_blank"><i class="fas fa-qrcode"></i> QR-CODE</a>
+    <a href="/pair" class="btn" target="_blank"><i class="fas fa-link"></i> PAIRING-CODE</a>
+    <a href="https://github.com/mKe-BOY99/MKE-X-MD/fork" class="btn" target="_blank"><i class="fab fa-github"></i> FORK MKE-X MD</a>
+    <a href="https://whatsapp.com/channel/0029Vb6JYQ81noz7JAjOlg0t" class="btn" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+  </div>
+
+  <p class="info">HAVE ANY ERROR? CLICK ERROR BUTTON</p>
+  <a href="https://wa.me/50941350366" class="btn" target="_blank"><i class="fas fa-bug"></i> ERROR</a>
+
+  <footer>
+    <i class="fa fa-user"></i> Powered by MKE-BOY • <span id="year"></span>
+  </footer>
+
+  <!-- Audio Only -->
+  <audio id="myAudio" autoplay loop>
+    <source src="https://files.catbox.moe/u6oxpa.mp4" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

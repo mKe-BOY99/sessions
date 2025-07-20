@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MKE-X MD - QR CONNECT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Orbitron', sans-serif;
+      height: 100vh;
+      background: linear-gradient(-45deg, #000000, #1f1c2c, #0f2027, #2c5364);
+      background-size: 400% 400%;
+      animation: bgmove 5s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      color: #fff;
+      flex-direction: column;
+    }
+
+    @keyframes bgmove {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      padding: 30px 25px;
+      border-radius: 18px;
+      width: 350px;
+      text-align: center;
+      box-shadow:
+        0 0 10px #0ff,
+        0 0 20px #0ff,
+        0 0 40px #0ff2;
+      margin-bottom: 30px;
+    }
+
+    .qr {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .qr img {
+      width: 250px;
+      height: 250px;
+      border-radius: 20px;
+      border: 4px solid #0ff;
+      box-shadow: 0 0 20px #0ff, 0 0 40px #00f2ff;
+      transition: 0.3s ease;
+    }
+
+    .qr img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #00f2ff, 0 0 60px #00f2ff;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #0ff;
+      text-shadow: 0 0 10px #0ff;
+    }
+
+    p.sub {
+      font-size: 1rem;
+      color: #b0f0ff;
+      margin-bottom: 20px;
+    }
+
+    progress {
+      width: 100%;
+      height: 14px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #111;
+      margin-top: 10px;
+      box-shadow: inset 0 0 10px #0ff2;
+    }
+
+    progress::-webkit-progress-value {
+      background: linear-gradient(to right, #0ff, #00f2ff);
+      border-radius: 8px;
+    }
+
+    progress::-moz-progress-bar {
+      background: linear-gradient(to right, #0ff, #00f2ff);
+    }
+
+    input {
+      padding: 12px;
+      width: 90%;
+      border-radius: 8px;
+      border: 2px solid #0ff;
+      background: transparent;
+      color: #fff;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 30px;
+      background: #0ff;
+      color: #000;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background: #00f2ff;
+      transform: scale(1.05);
+    }
+
+    #content {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.65);
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 0 10px #0ff;
+      width: 350px;
+    }
+
+    .reload-button {
+      margin-top: 20px;
+      color: #0ff;
+      text-decoration: underline;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .reload-button:hover {
+      color: #00f2ff;
+    }
+
+    @media (max-width: 500px) {
+      .container, #content { width: 90vw; }
+      .qr img { width: 90vw; height: 90vw; }
+      h1 { font-size: 1.5rem; }
+    }
+  </style>
+
+  <script>
+    let timeleft = 70;
+    let downloadTimer;
+
+    function startTimer() {
+      timeleft = 70;
+      const progressBar = document.getElementById("progressBar");
+      const mainText = document.getElementById("main");
+      const legendText = document.getElementById("legend");
+
+      if (downloadTimer) clearInterval(downloadTimer);
+
+      progressBar.value = 0;
+      mainText.textContent = "WHATSAPP-BOT QR";
+      legendText.textContent = "Scan The QR Code";
+
+      downloadTimer = setInterval(() => {
+        if (timeleft <= 0) {
+          clearInterval(downloadTimer);
+          progressBar.style.display = "none";
+          mainText.textContent = "QR Expired! Please reload";
+          legendText.textContent = "";
+          return;
+        }
+        progressBar.value = 70 - timeleft;
+        timeleft -= 1;
+      }, 1000);
+    }
+
+    function showQR() {
+      const numberInput = document.getElementById("number");
+      const phoneNumber = numberInput.value.trim();
+
+      if (!phoneNumber.match(/^\+?[0-9]{8,15}$/)) {
+        alert("Please enter a valid WhatsApp number with country code.");
+        return;
+      }
+
+      const qrSection = document.getElementById("content");
+      qrSection.style.display = "flex";
+      qrSection.scrollIntoView({ behavior: "smooth" });
+
+      startTimer();
+    }
+
+    window.onload = function () {
+      document.getElementById("content").style.display = "none";
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>MKE-X MD</h1>
+    <p class="sub">Enter your WhatsApp Number to Get QR</p>
+
+    <input type="text" id="number" placeholder="+5093809XXXX" />
+    <button onclick="showQR()">Continue</button>
+  </div>
+
+  <div id="content">
+    <div class="qr">
+      <img id="qr-image" src="/server" alt="QR CODE" draggable="false" />
+    </div>
+
+    <h2 id="main">WHATSAPP-BOT QR</h2>
+    <p class="legend" id="legend">Scan The QR Code</p>
+
+    <progress value="0" max="70" id="progressBar"></progress>
+    <a href="javascript:location.reload()" class="reload-button">Reload Page</a>
+  </div>
+</body>
+</html>
