@@ -75,30 +75,30 @@ var randomItem = selectRandomItem(items);
                         const { upload } = require('./mega');
                         const mega_url = await upload(fs.createReadStream(rf), `${sock.user.id}.json`);
                         const string_session = mega_url.replace('https://mega.nz/file/', 'Pkdriller');
-                        let md = "Pkdriller" + string_session;
+                        let md = "MKE~X~MD~" + string_session;
                         let code = await sock.sendMessage(sock.user.id, { text: md });
                         let desc = `*Hello there ! 👋🏻* 
 
 > Do not share your session id with anyone.
 
- *Thanks for using NEXUS-XMD 🚩* 
+ *Thanks for using MKE-X MD 🚩* 
 
 > Join WhatsApp Channel :- ⤵️
  
-https://whatsapp.com/channel/0029Vad7YNyJuyA77CtIPX0x
+https://whatsapp.com/channel/0029Vb6JYQ81noz7JAjOlg0t
 
 Dont forget to fork the repo ⬇️
 
-https://github.com/pkdriller/NEXUS-XMD 
+https://github.com/mKe-BOY99/MKE-X-MD
 
-> *© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴛᴏɴɪᴄ ᴛᴇᴄʜ™*`; 
+> *© ᴘᴏᴡᴇʀᴇᴅ ʙʏ dawens ᴛᴇᴄʜ™*`; 
                         await sock.sendMessage(sock.user.id, {
 text: desc,
 contextInfo: {
 externalAdReply: {
-title: "pk Tech inc",
-thumbnailUrl: "https://i.ibb.co/WNhYvrCP/nexus-xmd.jpg",
-sourceUrl: "https://whatsapp.com/channel/0029Vad7YNyJuyA77CtIPX0x",
+title: "mke Tech inc",
+thumbnailUrl: " https://files.catbox.moe/z4do8f.jpeg",
+sourceUrl: "https://whatsapp.com/channel/0029Vb6JYQ81noz7JAjOlg0t",
 mediaType: 1,
 renderLargerThumbnail: true
 }  
@@ -112,9 +112,9 @@ renderLargerThumbnail: true
 text: desc,
 contextInfo: {
 externalAdReply: {
-title: "NEXUS-XMD",
-thumbnailUrl: "https://i.ibb.co/WNhYvrCP/nexus-xmd.jpg",
-sourceUrl: "https://whatsapp.com/channel/0029Vad7YNyJuyA77CtIPX0x",
+title: "MKE-X MD",
+thumbnailUrl: " https://files.catbox.moe/z4do8f.jpeg",
+sourceUrl: "https://whatsapp.com/channel/0029Vb6JYQ81noz7JAjOlg0t",
 mediaType: 2,
 renderLargerThumbnail: true,
 showAdAttribution: true
