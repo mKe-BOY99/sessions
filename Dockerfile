@@ -1,21 +1,26 @@
-FROM node:lts-buster
+# Base image Node 20
+FROM node:20-slim
 
-RUN apt-get update && \
-  apt-get install -y \
-  ffmpeg \
-  imagemagick \
-  webp && \
-  apt-get upgrade -y && \
-  rm -rf /var/lib/apt/lists/*
-  
-WORKDIR /usr/src/app
+# Set working directory
+WORKDIR /app
 
-COPY package.json .
+# Kopi package.json ak package-lock.json (si genyen)
+COPY package*.json ./
 
-RUN npm install && npm install -g qrcode-terminal pm2
+# Enstale pm2 globalman
+RUN npm install -g pm2
 
+# Enstale depandans app la
+RUN npm install
+
+# Kopi tout kòd app la nan container la
 COPY . .
 
-EXPOSE 5000
+# Expose pò si app lan sèvi ak yon pò espesifik (chanje si w itilize lòt pò)
+EXPOSE 3000
 
-CMD ["npm", "start"]
+# Anviwònman pwodiksyon
+ENV NODE_ENV=production
+
+# Kòmanse app lan ak pm2 selon script ou
+CMD ["pm2-runtime", "index.js", "--deep-monitoring", "--attach", "--name", "malvin-xd"]
