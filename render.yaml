@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: SNOW-MD-pair-site
+    name: MKE-X-MD-pair-site
     env: docker
     plan: free
     branch: main
