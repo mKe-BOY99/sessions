@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: MKE-X-MD-pair-site
+    env: docker
+    plan: free
+    branch: main
+    repo: https://github.com/mKe-BOY99/MKE-X-MD
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
