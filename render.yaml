@@ -4,6 +4,6 @@ services:
     env: docker
     plan: free
     branch: main
-    repo: https://github.com/jon-snow-tech-bot/SNOW-MD
+    repo: https://github.com/mKe-BOY99/MKE-X-MD
     dockerfilePath: ./Dockerfile
     autoDeploy: true
