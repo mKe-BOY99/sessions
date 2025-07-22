@@ -1,17 +1,10 @@
 const { makeid } = require('./gen-id');
 const express = require('express');
-const QRCode = require('qrcode');
 const fs = require('fs');
 let router = express.Router();
 const pino = require("pino");
-const {
-    default: makeWASocket,
-    useMultiFileAuthState,
-    delay,
-    makeCacheableSignalKeyStore,
-    Browsers,
-    jidNormalizedUser
-} = require("@whiskeysockets/baileys");
+const { default: makeWASocket, useMultiFileAuthState, delay, Browsers, makeCacheableSignalKeyStore, getAggregateVotesInPollMessage, DisconnectReason, WA_DEFAULT_EPHEMERAL, jidNormalizedUser, proto, getDevice, generateWAMessageFromContent, fetchLatestBaileysVersion, makeInMemoryStore, getContentType, generateForwardMessageContent, downloadContentFromMessage, jidDecode } = require('@whiskeysockets/baileys')
+
 const { upload } = require('./mega');
 function removeFile(FilePath) {
     if (!fs.existsSync(FilePath)) return false;
@@ -19,8 +12,8 @@ function removeFile(FilePath) {
 }
 router.get('/', async (req, res) => {
     const id = makeid();
- //   let num = req.query.number;
-    async function MALVIN_XD_PAIR_CODE() {
+    let num = req.query.number;
+    async function GIFTED_MD_PAIR_CODE() {
         const {
             state,
             saveCreds
@@ -34,23 +27,32 @@ function selectRandomItem(array) {
 var randomItem = selectRandomItem(items);
             
             let sock = makeWASocket({
-                	
-				auth: state,
-				printQRInTerminal: false,
-				logger: pino({
-					level: "silent"
-				}),
-				browser: Browsers.macOS("Desktop"),
-			});
-            
+                auth: {
+                    creds: state.creds,
+                    keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })),
+                },
+                printQRInTerminal: false,
+                generateHighQualityLinkPreview: true,
+                logger: pino({ level: "fatal" }).child({ level: "fatal" }),
+                syncFullHistory: false,
+                browser: Browsers.macOS(randomItem)
+            });
+            if (!sock.authState.creds.registered) {
+                await delay(1500);
+                num = num.replace(/[^0-9]/g, '');
+                const code = await sock.requestPairingCode(num);
+                if (!res.headersSent) {
+                    await res.send({ code });
+                }
+            }
             sock.ev.on('creds.update', saveCreds);
             sock.ev.on("connection.update", async (s) => {
-                const {
+
+    const {
                     connection,
-                    lastDisconnect,
-                    qr
+                    lastDisconnect
                 } = s;
-              if (qr) await res.end(await QRCode.toBuffer(qr));
+                
                 if (connection == "open") {
                     await delay(5000);
                     let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
@@ -67,39 +69,36 @@ var randomItem = selectRandomItem(items);
                     }
                     const randomText = generateRandomText();
                     try {
+
+
+                        
                         const { upload } = require('./mega');
                         const mega_url = await upload(fs.createReadStream(rf), `${sock.user.id}.json`);
                         const string_session = mega_url.replace('https://mega.nz/file/', '');
                         let md = "MKE~X~MD~" + string_session;
                         let code = await sock.sendMessage(sock.user.id, { text: md });
-                        let desc = `*Hey there, MKE-X MD User!* 👋🏻
+                        let desc = `*Hello there MKE-X MD User! 👋🏻* 
 
-Thanks for using *MKE-X MD* — your session has been successfully created!
+> Do not share your session id with your gf .
 
-🔐 *Session ID:* Sent above  
-⚠️ *Keep it safe!* Do NOT share this ID with anyone.
+ *Thanks for using MKE-X MD * 
 
-——————
-
-*✅ Stay Updated:*  
-Join our official WhatsApp GROUP SUPPORT:  
+> Join WhatsApp Channel :- ⤵️
+ 
 https://chat.whatsapp.com/CqEHcMf8ZZwEuyj8k0X8JV?mode=r_t
 
-*💻 Source Code:*  
-Fork & explore the project on GitHub:  
-https://github.com/mKe-BOY99/MKE-X-MD
+Dont forget to fork the repo ⬇️
 
-——————
+https://github.com/mKe-BOY99/MKE-X-MD 
 
-> *© Powered by MKE BOY TECH*
-Stay cool and hack smart. ✌🏻`;
+> *© Powered BY MKE-BOY TECH*`; 
                         await sock.sendMessage(sock.user.id, {
 text: desc,
 contextInfo: {
 externalAdReply: {
-title: "mke-x-md 𝕮𝖔𝖓𝖓𝖊𝖈𝖙𝖊𝖉",
-thumbnailUrl: " https://files.catbox.moe/z4do8f.jpeg",
-sourceUrl: "https://whatsapp.com/channel/0029Vb6JYQ81noz7JAjOlg0t",
+title: "MKE-BOY",
+thumbnailUrl: "https://files.catbox.moe/z4do8f.jpeg",
+sourceUrl: "https://chat.whatsapp.com/CqEHcMf8ZZwEuyj8k0X8JV?mode=r_t",
 mediaType: 1,
 renderLargerThumbnail: true
 }  
@@ -108,34 +107,14 @@ renderLargerThumbnail: true
 {quoted:code })
                     } catch (e) {
                             let ddd = sock.sendMessage(sock.user.id, { text: e });
-                            let desc = `*Hey there, MKE-X MD User!* 👋🏻
-
-Thanks for using *MKE-X MD* — your session has been successfully created!
-
-🔐 *Session ID:* Sent above  
-⚠️ *Keep it safe!* Do NOT share this ID with anyone.
-
-——————
-
-*✅ Stay Updated:*  
-Join our official WhatsApp GROUP SUPPORT:  
-https://chat.whatsapp.com/CqEHcMf8ZZwEuyj8k0X8JV?mode=r_t
-
-*💻 Source Code:*  
-Fork & explore the project on GitHub:  
-https://github.com/mKe-BOY99/MKE-X-MD
-
-——————
-
-> *© Powered by MKE BOY TECH*
-Stay cool and hack smart. ✌🏻`;
+                            let desc = `*Don't Share with anyone this code use for deploy MKE-X MD*\n\n ◦ *Github:* https://github.com/mKe-BOY99/MKE-X-MD`;
                             await sock.sendMessage(sock.user.id, {
 text: desc,
 contextInfo: {
 externalAdReply: {
-title: "MKE-X-MD 𝕮𝖔𝖓𝖓𝖊𝖈𝖙𝖊𝖉 ✅  ",
-thumbnailUrl: "https://files.catbox.moe/bqs70b.jpg",
-sourceUrl: "https://whatsapp.com/channel/0029VbCHd5V1dAw132PB7M1B",
+title: "MKE-BOY",
+thumbnailUrl: " https://files.catbox.moe/z4do8f.jpeg",
+sourceUrl: "https://chat.whatsapp.com/CqEHcMf8ZZwEuyj8k0X8JV?mode=r_t",
 mediaType: 2,
 renderLargerThumbnail: true,
 showAdAttribution: true
@@ -152,7 +131,7 @@ showAdAttribution: true
                     process.exit();
                 } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
                     await delay(10);
-                    MALVIN_XD_PAIR_CODE();
+                    GIFTED_MD_PAIR_CODE();
                 }
             });
         } catch (err) {
@@ -163,10 +142,11 @@ showAdAttribution: true
             }
         }
     }
-    await MALVIN_XD_PAIR_CODE();
-});
+   return await GIFTED_MD_PAIR_CODE();
+});/*
 setInterval(() => {
     console.log("☘️ 𝗥𝗲𝘀𝘁𝗮𝗿𝘁𝗶𝗻𝗴 𝗽𝗿𝗼𝗰𝗲𝘀𝘀...");
     process.exit();
-}, 180000); //30min
+}, 180000); //30min*/
 module.exports = router;
+                          

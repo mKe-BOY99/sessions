@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: SNOW-MD-pair-site
+    env: docker
+    plan: free
+    branch: main
+    repo: https://github.com/jon-snow-tech-bot/SNOW-MD
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
