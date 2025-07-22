@@ -1,9 +1,9 @@
 {
-    "name": "pair session",
+    "name": "Gifted Session Generator",
     "description": "Web Session Generator",
-    "logo": "https://i.imgur.com/teQzVR1.jpeg",
-    "repository": "https://github.com/mKe-BOY99/sessions",
-    "keywords": ["DAWENSBOY","mKe-BOY99"],
+    "logo": "https://https://files.catbox.moe/rmcjwq.jpg",
+    "repository": "https://github.com/mauricegift/gifted-pair-code",
+    "keywords": ["Gifted-Tech"],
     "success_url": "/", 
     "buildpacks": [{ "url": "https://github.com/heroku/heroku-buildpack-nodejs#latest" } ],
     "env": {      
