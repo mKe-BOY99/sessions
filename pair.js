@@ -126,7 +126,7 @@ showAdAttribution: true
                     await delay(10);
                     await sock.ws.close();
                     await removeFile('./temp/' + id);
-                    console.log(`👤 ${sock.user.id} Connected ✅ Restarting process...`);
+                    console.log('User ' + sock.user.id + ' connected. Restarting process...');
                     await delay(10);
                     process.exit();
                 } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
