@@ -4,12 +4,12 @@
   "description": "A multi functional whatsapp bot Web paircode.",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start index.js --deep-monitoring --attach --name MKE-MD",
-    "stop": "pm2 stop MKE-MD",
-    "restart": "pm2 restart MKE-MD"
+    "start": "pm2 start index.js --deep-monitoring --attach --name vajira-md",
+    "stop": "pm2 stop vajira-md",
+    "restart": "pm2 restart vajira-md"
   },
   "dependencies": {
-    "@whiskeysockets/baileys": "npm:baileys-pro@0.0.5",
+    "@whiskeysockets/baileys": "github:DybyTech/Baileys",
     "@adiwajshing/keyed-db": "^0.2.4",
     "qrcode": "^1.5.3",
     "awesome-phonenumber": "^2.64.0",
