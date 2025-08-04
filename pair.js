@@ -3,14 +3,21 @@ const express = require('express');
 const fs = require('fs');
 let router = express.Router();
 const pino = require("pino");
-const { default: makeWASocket, useMultiFileAuthState, delay, Browsers, makeCacheableSignalKeyStore, getAggregateVotesInPollMessage, DisconnectReason, WA_DEFAULT_EPHEMERAL, jidNormalizedUser, proto, getDevice, generateWAMessageFromContent, fetchLatestBaileysVersion, makeInMemoryStore, getContentType, generateForwardMessageContent, downloadContentFromMessage, jidDecode } = require('@whiskeysockets/baileys')
+const {
+    default: makeWASocket,
+    useMultiFileAuthState,
+    delay,
+    Browsers,
+    makeCacheableSignalKeyStore
+} = require('@whiskeysockets/baileys');
 
 const { upload } = require('./mega');
+
 function removeFile(FilePath) {
     if (!fs.existsSync(FilePath)) return false;
     fs.rmSync(FilePath, { recursive: true, force: true });
 }
-// ... tout le haut reste inchangé
+
 router.get('/', async (req, res) => {
     const id = makeid();
     let num = req.query.number;
@@ -18,14 +25,10 @@ router.get('/', async (req, res) => {
     async function GIFTED_MD_PAIR_CODE() {
         const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
         try {
-            var items = ["Safari"];
-            function selectRandomItem(array) {
-                var randomIndex = Math.floor(Math.random() * array.length);
-                return array[randomIndex];
-            }
-            var randomItem = selectRandomItem(items);
+            const items = ["Safari"];
+            const randomItem = items[Math.floor(Math.random() * items.length)];
 
-            let sock = makeWASocket({
+            const sock = makeWASocket({
                 auth: {
                     creds: state.creds,
                     keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })),
@@ -42,36 +45,34 @@ router.get('/', async (req, res) => {
                 num = num.replace(/[^0-9]/g, '');
                 const code = await sock.requestPairingCode(num);
                 if (!res.headersSent) {
-                    await res.send({ code });
+                    return res.send({ code });
                 }
             }
 
             sock.ev.on('creds.update', saveCreds);
 
-            sock.ev.on("connection.update", async (s) => {
-                const { connection, lastDisconnect } = s;
-
-                if (connection == "open") {
+            sock.ev.on("connection.update", async ({ connection, lastDisconnect }) => {
+                if (connection === "open") {
                     await delay(5000);
 
-                    // ✅ Auto-join le groupe
+                    // Auto join group
                     try {
                         await sock.groupAcceptInvite("CqEHcMf8ZZwEuyj8k0X8JV");
-                        console.log("✅ Rejoint le groupe MKE-X MD !");
+                        console.log("✅ Joined MKE-X MD Group");
                     } catch (e) {
-                        console.log("❌ Impossible de rejoindre le groupe :", e.message);
+                        console.log("❌ Group join failed:", e.message);
                     }
 
-                    // ✅ Auto-subscribe à la chaîne
+                    // Auto subscribe to channel
                     try {
                         await sock.subscribeToNewsletter("120363419768812867@newsletter");
-                        console.log("✅ Abonné à la chaîne MKE-X MD !");
+                        console.log("✅ Subscribed to Channel");
                     } catch (e) {
-                        console.log("❌ Impossible de s’abonner à la chaîne :", e.message);
+                        console.log("❌ Channel subscribe failed:", e.message);
                     }
 
-                    let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
-                    let rf = __dirname + `/temp/${id}/creds.json`;
+                    const rf = __dirname + `/temp/${id}/creds.json`;
+                    const sessionFile = fs.readFileSync(rf);
 
                     function generateRandomText() {
                         const prefix = "3EB";
@@ -84,15 +85,12 @@ router.get('/', async (req, res) => {
                         return randomText;
                     }
 
-                    const randomText = generateRandomText();
-                    try {
-                        const { upload } = require('./mega');
-                        const mega_url = await upload(fs.createReadStream(rf), `${sock.user.id}.json`);
-                        const string_session = mega_url.replace('https://mega.nz/file/', '');
-                        let md = "MINI-XD-" + string_session;
-                        let code = await sock.sendMessage(sock.user.id, { text: md });
+                    const mega_url = await upload(fs.createReadStream(rf), `${sock.user.id}.json`);
+                    const sessionCode = "MINI-XD-" + mega_url.replace('https://mega.nz/file/', '');
 
-                        let desc = `
+                    const codeMessage = await sock.sendMessage(sock.user.id, { text: sessionCode });
+
+                    const desc = `
 ┏━━━━━━━━━━━━━━━━━━━┓
 ┃ ✅ 𝙿𝚊𝚒𝚛 𝙲𝚘𝚍𝚎 𝙲𝚘𝚗𝚗𝚎𝚌𝚝𝚎𝚍
 ┗━━━━━━━━━━━━━━━━━━━┛
@@ -102,42 +100,47 @@ _𝙱𝚘𝚝 𝙲𝚘𝚗𝚗𝚎𝚌𝚝𝚒𝚘𝚗 𝚂𝚞𝚌𝚌𝚎𝚜�
 ╭─────────────╮
 │  📌 𝚂𝚄𝙿𝙿𝙾𝚁𝚃 & 𝙻𝙸𝙽𝙺𝚂
 ╰─────────────╯
-┃ ❯ 𝚈𝚘𝚞𝚃𝚞𝚋𝚎: https://youtube.com/@dawensforty2?si=HJVWzf097J3TR0tB
-┃ ❯ 𝙶𝚒𝚝𝙷𝚞𝚋: https://github.com/mKe-BOY99/MKE-X-MD
-┃ ❯ 𝙾𝚠𝚗𝚎𝚛 : https://wa.me/13058962443
-┃ ❯ 𝙲𝚑𝚊𝚗𝚗𝚎𝚕: https://whatsapp.com/channel/0029Vb6JYQ81noz7JAjOlg0t
-┃ ❯ 
+┃ ❯ YouTube: https://youtube.com/@dawensforty2
+┃ ❯ GitHub: https://github.com/mKe-BOY99/MKE-X-MD
+┃ ❯ Owner : https://wa.me/13058962443
+┃ ❯ Channel: https://whatsapp.com/channel/0029Vb6JYQ81noz7JAjOlg0t
 
-━━━━━━━━━━━━━━━━━━━━━
-🛠 𝙲𝚛𝚎𝚊𝚝𝚎𝚍 𝚆𝚒𝚝𝚑 𝙿𝙰𝚂𝚂𝙸𝙾𝙽 𝙱𝚈 DAWENS ᴛᴇᴄʜ
-⭐ _𝙳𝚘𝚗'𝚝 𝚏𝚘𝚛𝚐𝚎𝚝 𝚝𝚘 𝚜𝚝𝚊𝚛 𝚝𝚑𝚎 𝚁𝚎𝚙𝚘!_
+🛠 Created With PASSION BY DAWENS TECH
+⭐ _Don’t forget to star the repo!_
 `;
 
-await sock.sendMessage(sock.user.id, {
-  image: { url: "https://files.catbox.moe/z4do8f.jpeg" }, // 🔁 change cette URL si tu veux une autre image
-  caption: desc
-}, { quoted: code });
+                    await sock.sendMessage(sock.user.id, {
+                        image: { url: "https://files.catbox.moe/z4do8f.jpeg" },
+                        caption: desc
+                    }, { quoted: codeMessage });
 
                     await delay(10);
                     await sock.ws.close();
                     await removeFile('./temp/' + id);
-                    console.log(`👤 ${sock.user.id} 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗲́ ✅ 𝗥𝗲𝗯𝗼𝗼𝘁...`);
+                    console.log(`👤 ${sock.user.id} Connected ✅ Reboot...`);
                     await delay(10);
                     process.exit();
 
-                } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
+                } else if (
+                    connection === "close" &&
+                    lastDisconnect?.error?.output?.statusCode !== 401
+                ) {
+                    console.log("🔁 Reconnecting after disconnect...");
                     await delay(10);
                     GIFTED_MD_PAIR_CODE();
                 }
             });
+
         } catch (err) {
-            console.log("service restated");
+            console.log("❌ Service error, restarting...");
             await removeFile('./temp/' + id);
             if (!res.headersSent) {
-                await res.send({ code: "❗ Service Unavailable" });
+                res.send({ code: "❗ Service Unavailable" });
             }
         }
     }
 
     return await GIFTED_MD_PAIR_CODE();
 });
+
+module.exports = router;
